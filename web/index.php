@@ -4,14 +4,14 @@
         <title>Test page ♥</title>
     </head>
     <body>
+        <p>
+            <?php require 'menu.php' ?>
+        </p>
         <div>
-            This is a 'hello world' for my CD container.
+            This is the home page. The test credentials for the secret page are `test-user` &amp; `password`.
         </div>
         <p>
-            Version: <?php echo getenv('CD_DEMO_VERSION') ?>
-        </p>
-        <p>
-            GUID: <?php echo file_get_contents(__DIR__ . '/guid.txt') ?>
+            <?php require 'guid.php' ?>
         </p>
     </body>
 </html>
