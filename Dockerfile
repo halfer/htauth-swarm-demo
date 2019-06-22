@@ -14,7 +14,7 @@ COPY install/htauth.conf /etc/apache2/conf.d/
 # Create password file
 RUN htpasswd -bc /etc/apache2/conf.d/htauth.pwd test-user password
 
-# Add dumb init to improve sig handling (stop time in CircleCI of 10sec is too slow)
+# Add dumb init to improve sig handling
 RUN wget -O /usr/local/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.2/dumb-init_1.2.2_amd64
 RUN chmod +x /usr/local/bin/dumb-init
 
