@@ -21,17 +21,61 @@ have a central database to handle cookies.
 Fork
 ---
 
-FIXME https://github.com/halfer/cd-demo-container
+This repository is a simplified fork of my [CD Demo Container](https://github.com/halfer/cd-demo-container),
+which uses multiple Docker containers in a Swarm to achieve zero-downtime upgrades.
 
 Preparation
 ---
 
-FIXME
+On a Linux server, ensure that Docker is installed and ensure that Docker is in Swarm mode:
+
+    docker swarm init
+
+You can, optionally, add additional nodes to the Swarm, but it is not necessary for this
+demonstration.
 
 Usage
 ---
 
-FIXME
+Firstly, clone this repo:
+
+    git clone https://github.com/halfer/htauth-swarm-demo.git
+    cd htauth-swarm-demo
+
+Then, build the Docker image and give it a tag (say `0.1` in this example):
+
+    docker build -t http-auth-swarm-demo:0.1 .
+
+Finally, create a new service for this image. The exact number of replicas does not
+matter, as long as it is more than one. You can also swap the host-side port number
+to something other than 80 if that is already taken on your machine:
+
+    docker service create \
+        --name htauth-swarm-demo \
+        --replicas 4 \
+        --publish 80:80 \
+        htauth-swarm-demo
+
+Finally, open `http://localhost` in your browser, and note the credentials provided.
+Click on the "secret" page and enter the credentials to gain access, and then refresh
+the page a few times to see the container GUID rotate (on my machine it seems to stick
+with each container for 20-30 seconds, and then move on, so be patient).
+
+On the secret page it reads the credentials from PHP, which suggests to me that
+these details are passed via request headers, rather than creating server and client-side
+cookies.
+
+Upgrading
+---
+
+If you want to tinker with the code, go ahead! You will need to rebuild your image,
+and give it a new version number, otherwise the Swarm will assume no container
+replacements are necessary. Let us assume you bump up to `0.2`, and then you can upgrade
+the image backing your container replicas:
+
+    docker service update \
+         --image htauth-swarm-demo:0.2 \
+         htauth-swarm-demo
 
 License
 ---
