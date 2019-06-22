@@ -65,6 +65,19 @@ On the secret page it reads the credentials from PHP, which suggests to me that
 these details are passed via request headers, rather than creating server and client-side
 cookies.
 
+How it works
+---
+
+When the container starts up, it writes a GUID into the web server docroot, and this
+remains static for the lifetime of the container. When you access the site via your
+browser, the [Routing Mesh](https://docs.docker.com/engine/swarm/ingress/#using-the-routing-mesh)
+will direct your requests to one of the available containers, based on an internal
+networking algorithm.
+
+Once you have authed into the secret page, your browser will send your credentials
+with every page request, and thus even if the container changes (signfied by a change
+of GUID) it will still work.
+
 Upgrading
 ---
 
