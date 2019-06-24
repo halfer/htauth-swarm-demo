@@ -54,7 +54,7 @@ to something other than 80 if that is already taken on your machine:
         --name htauth-swarm-demo \
         --replicas 4 \
         --publish 80:80 \
-        htauth-swarm-demo
+        htauth-swarm-demo:0.1
 
 Finally, open `http://localhost` in your browser, and note the credentials provided.
 Click on the "secret" page and enter the credentials to gain access, and then refresh
